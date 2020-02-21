@@ -12,7 +12,10 @@
         android:layout_height="200dp"
         android:textSize="40sp"
         android:gravity="center"
-        android:text="@string/question" />
+        android:text="@string/question"
+        android:background="@drawable/card_background"
+        android:textColor="@color/darkBlue"
+        android:elevation="10dp" />
 
     <TextView
         android:id="@+id/flashcard_answer"
@@ -21,6 +24,8 @@
         android:textSize="40sp"
         android:gravity="center"
         android:text="@string/answer"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:background="@drawable/card_background2"
+        android:textColor="@color/darkGray"/>
 
 </RelativeLayout>
