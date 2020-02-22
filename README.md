@@ -7,7 +7,7 @@ Basic flashcard app that can display a quesiton and respond to a user's tap to d
 
 ### App Walk-though
 
-<img src="" width=200><br>
+<img src="flashcard.gif" width=200><br>
 
 ## Required
 - [x] Create New Project in Android Studio
