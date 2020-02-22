@@ -14,7 +14,7 @@
         android:gravity="center"
         android:text="@string/question"
         android:background="@drawable/card_background"
-        android:textColor="@color/darkBlue"
+        android:textColor="@color/white"
         android:elevation="10dp" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:gravity="center"
         android:text="@string/answer"
         android:visibility="invisible"
-        android:background="@drawable/card_background2"
-        android:textColor="@color/darkGray"/>
+        android:background="@drawable/card_background_rev"
+        android:textColor="@color/white"/>
 
 </RelativeLayout>
