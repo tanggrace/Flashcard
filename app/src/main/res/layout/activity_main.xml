@@ -10,6 +10,7 @@
         android:id="@+id/flashcard_question"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_margin="10dp"
         android:textSize="40sp"
         android:gravity="center"
         android:text="@string/question"
@@ -21,11 +22,40 @@
         android:id="@+id/flashcard_answer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_margin="10dp"
         android:textSize="40sp"
         android:gravity="center"
         android:text="@string/answer"
         android:visibility="invisible"
         android:background="@drawable/card_background_rev"
         android:textColor="@color/white"/>
+
+    <ImageView
+        android:id="@+id/eye_visible_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:background="@drawable/ic_eye_visible" />
+
+    <ImageView
+        android:id="@+id/eye_invisible_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:background="@drawable/ic_eye_invisible"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/add_button"
+        android:src="@drawable/ic_add"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp" />
 
 </RelativeLayout>
