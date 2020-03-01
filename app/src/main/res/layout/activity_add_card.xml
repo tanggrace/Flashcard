@@ -39,4 +39,20 @@
         android:layout_alignParentStart="true"
         android:layout_margin="15dp" />
 
+    <EditText
+        android:id="@+id/wrongAnswerTextField"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_margin="20dp"
+        android:layout_below="@id/answerTextField"
+        android:hint="Enter Wrong Answer Option Here" />
+
+    <EditText
+        android:id="@+id/wrongAnswer2TextField"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_margin="20dp"
+        android:layout_below="@id/wrongAnswerTextField"
+        android:hint="Enter Another Wrong Answer Option Here" />
+
 </RelativeLayout>

@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,16 +87,42 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivityForResult(intent, ADD_CARD_REQUEST_CODE);
             }
         });
-    }
 
+        findViewById(R.id.edit_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String question = ((TextView) findViewById(R.id.flashcard_question)).getText().toString();
+                String answer = ((TextView) findViewById(R.id.flashcard_answer)).getText().toString();
+                String wrongAnswer = ((TextView) findViewById(R.id.answer1)).getText().toString();
+                String wrongAnswer2 = ((TextView) findViewById(R.id.answer2)).getText().toString();
+
+                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+                intent.putExtra("question", question);
+                intent.putExtra("answer", answer);
+                intent.putExtra("wrongAnswer", wrongAnswer);
+                intent.putExtra("wrongAnswer2", wrongAnswer2);
+                MainActivity.this.startActivityForResult(intent, ADD_CARD_REQUEST_CODE);
+            }
+        });
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
             String question = data.getExtras().getString("question"); // 'question' needs to match the key we used when we put the string in the Intent
             String answer = data.getExtras().getString("answer");
+            String wrongAnswer = data.getExtras().getString("wrongAnswer");
+            String wrongAnswer2 = data.getExtras().getString("wrongAnswer2");
 
             ((TextView) findViewById(R.id.flashcard_question)).setText(question);
             ((TextView) findViewById(R.id.flashcard_answer)).setText(answer);
+            ((TextView) findViewById(R.id.answer1)).setText(wrongAnswer);
+            ((TextView) findViewById(R.id.answer2)).setText(wrongAnswer2);
+            ((TextView) findViewById(R.id.answer3)).setText(answer);
+
+            Snackbar.make(findViewById(R.id.flashcard_question),
+                    "Card successfully created",
+                    Snackbar.LENGTH_SHORT)
+                    .show();
         }
     }
 }
