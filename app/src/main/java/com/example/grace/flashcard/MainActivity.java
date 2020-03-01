@@ -3,6 +3,7 @@ package com.example.grace.flashcard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private static final int ADD_CARD_REQUEST_CODE = 100;
+
+    private static boolean isShowingAnswers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,48 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // eye visible/invisible stuff
+        findViewById(R.id.answer1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.answer1).setBackgroundColor(getResources().getColor(R.color.salmon, null));
+                findViewById(R.id.answer3).setBackgroundColor(getResources().getColor(R.color.limeGreen, null));
+            }
+        });
+
+        findViewById(R.id.answer2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.answer2).setBackgroundColor(getResources().getColor(R.color.salmon, null));
+                findViewById(R.id.answer3).setBackgroundColor(getResources().getColor(R.color.limeGreen, null));
+            }
+        });
+
+        findViewById(R.id.answer3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.answer3).setBackgroundColor(getResources().getColor(R.color.limeGreen, null));
+            }
+        });
+
+        isShowingAnswers = true;
+        findViewById(R.id.toggle_choices_visibility).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isShowingAnswers) {
+                    ((ImageView) findViewById(R.id.toggle_choices_visibility)).setImageResource(R.drawable.show_icon);
+                    findViewById(R.id.answer1).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.answer2).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.answer3).setVisibility(View.INVISIBLE);
+                    isShowingAnswers = false;
+                } else {
+                    ((ImageView) findViewById(R.id.toggle_choices_visibility)).setImageResource(R.drawable.hide_icon);
+                    findViewById(R.id.answer1).setVisibility(View.VISIBLE);
+                    findViewById(R.id.answer2).setVisibility(View.VISIBLE);
+                    findViewById(R.id.answer3).setVisibility(View.VISIBLE);
+                    isShowingAnswers = true;
+                }
+            }
+        });
 
         findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override

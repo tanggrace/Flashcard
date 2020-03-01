@@ -3,7 +3,10 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="pink">#FFC0CB</color>
+    <color name="lightBlue">#ADD8E6</color>
+    <color name="darkBlue">#00008B</color>
     <color name="darkGray">#A9A9A9</color>
-    <color name="white">#FFFFFF</color>
+    <color name="lightOrange">#FED8B1</color>
+    <color name="limeGreen">#32CD32</color>
+    <color name="salmon">#FA9072</color>
 </resources>
