@@ -7,7 +7,7 @@ Additional feature added: Flashcard app is able to let users create their own fl
 
 ### App Walk-though
 
-<img src="Lab2" width=200><br>
+<img src="Lab2.gif" width=200><br>
 
 ## Required
 - [x] User can click on a ‘+’ button that takes the user to new ‘Add Card Screen’
