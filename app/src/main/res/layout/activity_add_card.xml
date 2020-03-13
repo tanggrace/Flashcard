@@ -40,7 +40,7 @@
         android:layout_margin="15dp" />
 
     <EditText
-        android:id="@+id/wrongAnswerTextField"
+        android:id="@+id/wrongAnswer1TextField"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_margin="20dp"
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_margin="20dp"
-        android:layout_below="@id/wrongAnswerTextField"
+        android:layout_below="@id/wrongAnswer1TextField"
         android:hint="Enter Another Wrong Answer Option Here" />
 
 </RelativeLayout>
