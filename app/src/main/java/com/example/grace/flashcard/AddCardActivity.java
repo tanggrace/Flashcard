@@ -50,10 +50,10 @@ public class AddCardActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Must enter both Question and Answer!", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent data = new Intent(); // create a new Intent, this is where we will put our data
-                    data.putExtra("question", questionTextField.getText().toString()); // puts one string into the Intent, with the key as 'question'
-                    data.putExtra("answer", answerTextField.getText().toString()); // puts another string into the Intent, with the key as 'answer'
-                    data.putExtra("wrongAnswer1", wrongAnswer1TextField.getText().toString());
-                    data.putExtra("wrongAnswer2", wrongAnswer2TextField.getText().toString());
+                    data.putExtra("question", question); // puts one string into the Intent, with the key as 'question'
+                    data.putExtra("answer", answer); // puts another string into the Intent, with the key as 'answer'
+                    data.putExtra("wrongAnswer1", wrongAnswer1);
+                    data.putExtra("wrongAnswer2", wrongAnswer2);
                     setResult(RESULT_OK, data); // set result code and bundle data for response
                     finish(); // closes this activity and pass data to the original activity that launched this activity
                 }

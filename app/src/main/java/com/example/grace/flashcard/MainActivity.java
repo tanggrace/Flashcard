@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     TextView flashcard_question;
     TextView flashcard_answer;
     TextView answer1, answer2, answer3;
+    ImageView toggle_choices_visibility, add_button, next_button, edit_button, deleteBtn;
     boolean isShowingAnswers;
     FlashcardDatabase flashcardDatabase;
     List<Flashcard> allFlashcards;
@@ -39,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
         answer1 = (TextView) findViewById(R.id.answer1);
         answer2 = (TextView) findViewById(R.id.answer2);
         answer3 = (TextView) findViewById(R.id.answer3);
-        final ImageView toggle_choices_visibility = (ImageView) findViewById(R.id.toggle_choices_visibility);
-        final ImageView add_button = (ImageView) findViewById(R.id.add_button);
-        final ImageView edit_button = (ImageView) findViewById(R.id.edit_button);
-        final ImageView next_button = (ImageView) findViewById(R.id.next_button);
-        final ImageView deleteBtn = (ImageView) findViewById(R.id.deleteBtn);
+        toggle_choices_visibility = (ImageView) findViewById(R.id.toggle_choices_visibility);
+        add_button = (ImageView) findViewById(R.id.add_button);
+        edit_button = (ImageView) findViewById(R.id.edit_button);
+        next_button = (ImageView) findViewById(R.id.next_button);
+        deleteBtn = (ImageView) findViewById(R.id.deleteBtn);
 
         if (allFlashcards != null && allFlashcards.size() > 0) {
             flashcard_question.setText(allFlashcards.get(0).getQuestion());
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 answer1.setBackgroundColor(getResources().getColor(R.color.salmon, null));
+                answer2.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
                 answer3.setBackgroundColor(getResources().getColor(R.color.limeGreen, null));
             }
         });
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         answer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                answer1.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
                 answer2.setBackgroundColor(getResources().getColor(R.color.salmon, null));
                 answer3.setBackgroundColor(getResources().getColor(R.color.limeGreen, null));
             }
@@ -92,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         answer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                answer1.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
+                answer2.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
                 answer3.setBackgroundColor(getResources().getColor(R.color.limeGreen, null));
             }
         });
@@ -183,6 +188,14 @@ public class MainActivity extends AppCompatActivity {
                 if (allFlashcards.size() == 0) {
                     flashcard_question.setText("Add a card!");
                     flashcard_answer.setText("Add a card!");
+                    answer1.setVisibility(View.INVISIBLE);
+                    answer2.setVisibility(View.INVISIBLE);
+                    answer3.setVisibility(View.INVISIBLE);
+                    isShowingAnswers = false;
+                    toggle_choices_visibility.setVisibility(View.INVISIBLE);
+                    next_button.setVisibility(View.INVISIBLE);
+                    edit_button.setVisibility(View.INVISIBLE);
+                    deleteBtn.setVisibility(View.INVISIBLE);
                 } else {
                     currentCardDisplayedIndex--;
                     if (currentCardDisplayedIndex < 0) {
@@ -202,9 +215,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
             // grab the data passed from AddCardActivity
             String question = data.getExtras().getString("question"); // 'question' needs to match the key we used when we put the string in the Intent
@@ -220,6 +234,11 @@ public class MainActivity extends AppCompatActivity {
             answer1.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
             answer2.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
             answer3.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
+
+            toggle_choices_visibility.setVisibility(View.VISIBLE);
+            next_button.setVisibility(View.VISIBLE);
+            edit_button.setVisibility(View.VISIBLE);
+            deleteBtn.setVisibility(View.VISIBLE);
 
             Snackbar.make(flashcard_question,
                     "Card successfully created",
