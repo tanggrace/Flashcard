@@ -16,7 +16,8 @@
         android:text="@string/flashcard_question"
         android:background="@drawable/card_background"
         android:textColor="@color/darkGray"
-        android:elevation="15dp" />
+        android:elevation="15dp"
+        android:layout_below="@id/timer" />
 
     <TextView
         android:id="@+id/flashcard_answer"
@@ -29,12 +30,13 @@
         android:visibility="invisible"
         android:background="@drawable/card_background_comp"
         android:textColor="@color/darkGray"
-        android:elevation="15dp" />
+        android:elevation="15dp"
+        android:layout_below="@id/timer" />
 
     <TextView
         android:id="@+id/answer1"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_margin="10dp"
         android:layout_below="@id/next_button"
         android:textSize="30sp"
@@ -46,7 +48,7 @@
     <TextView
         android:id="@+id/answer2"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_margin="10dp"
         android:layout_below="@id/answer1"
         android:textSize="30sp"
@@ -58,7 +60,7 @@
     <TextView
         android:id="@+id/answer3"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_margin="10dp"
         android:layout_below="@id/answer2"
         android:textSize="30sp"
@@ -100,7 +102,7 @@
         android:layout_height="40dp"
         android:layout_below="@id/flashcard_question"
         android:layout_alignParentEnd="true"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:src="@drawable/ic_next" />
 
     <ImageView
@@ -109,7 +111,15 @@
         android:layout_height="40dp"
         android:layout_below="@id/flashcard_question"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:src="@drawable/ic_trash" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:textColor="@color/salmon" />
 
 </RelativeLayout>

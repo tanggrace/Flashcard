@@ -2,11 +2,15 @@ package com.example.grace.flashcard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.plattysoft.leonids.ParticleSystem;
 
 import java.util.List;
 import java.util.Random;
@@ -23,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     List<Flashcard> allFlashcards;
     int currentCardDisplayedIndex = 0;
     Flashcard cardToEdit;
+    CountDownTimer countDownTimer;
 
     private static final int ADD_CARD_REQUEST_CODE = 100;
     private static final int EDIT_CARD_REQUEST_CODE = 101;
@@ -60,8 +65,43 @@ public class MainActivity extends AppCompatActivity {
         flashcard_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flashcard_answer.setVisibility(View.VISIBLE);
-                flashcard_question.setVisibility(View.INVISIBLE);
+//                // get the center for the clipping circle
+//                int cx = flashcard_question.getWidth() / 2;
+//                int cy = flashcard_answer.getHeight() / 2;
+//
+//                // get the final radius for the clipping circle
+//                float finalRadius = (float) Math.hypot(cx, cy);
+//
+//                // create the animator for this view (the start radius is zero)
+//                Animator anim = ViewAnimationUtils.createCircularReveal(flashcard_answer, cx, cy, 0f, finalRadius);
+//
+//                // hide the question and show the answer to prepare for playing the animation!
+//                flashcard_question.setVisibility(View.INVISIBLE);
+//                flashcard_answer.setVisibility(View.VISIBLE);
+//
+//                anim.setDuration(1000);
+//                anim.start();
+
+                flashcard_question.setCameraDistance(25000);
+                flashcard_answer.setCameraDistance(25000);
+                flashcard_question.animate()
+                        .rotationY(90)
+                        .setDuration(200)
+                        .withEndAction(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        flashcard_question.setVisibility(View.INVISIBLE);
+                                        flashcard_answer.setVisibility(View.VISIBLE);
+                                        // second quarter turn
+                                        flashcard_answer.setRotationY(-90);
+                                        flashcard_answer.animate()
+                                                .rotationY(0)
+                                                .setDuration(200)
+                                                .start();
+                                    }
+                                }
+                        ).start();
             }
         });
 
@@ -69,8 +109,24 @@ public class MainActivity extends AppCompatActivity {
         flashcard_answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flashcard_question.setVisibility(View.VISIBLE);
-                flashcard_answer.setVisibility(View.INVISIBLE);
+                flashcard_answer.animate()
+                        .rotationY(90)
+                        .setDuration(200)
+                        .withEndAction(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        flashcard_answer.setVisibility(View.INVISIBLE);
+                                        flashcard_question.setVisibility(View.VISIBLE);
+                                        // second quarter turn
+                                        flashcard_question.setRotationY(-90);
+                                        flashcard_question.animate()
+                                                .rotationY(0)
+                                                .setDuration(200)
+                                                .start();
+                                    }
+                                }
+                        ).start();
             }
         });
 
@@ -98,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
                 answer1.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
                 answer2.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
                 answer3.setBackgroundColor(getResources().getColor(R.color.limeGreen, null));
+                new ParticleSystem(MainActivity.this, 100, R.drawable.confetti, 3000)
+                        .setSpeedRange(0.2f, 0.5f)
+                        .oneShot(findViewById(R.id.answer3), 100);
             }
         });
 
@@ -127,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
                 MainActivity.this.startActivityForResult(intent, ADD_CARD_REQUEST_CODE);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
 
@@ -164,19 +224,61 @@ public class MainActivity extends AppCompatActivity {
                     currentCardDisplayedIndex = 0;
                 }
 
-                int randomCardIndex = getRandomNumber(0, allFlashcards.size() - 1);
+                final Animation leftOutAnim = AnimationUtils.loadAnimation(v.getContext(), R.anim.left_out);
+                final Animation rightInAnim = AnimationUtils.loadAnimation(v.getContext(), R.anim.right_in);
 
-                // set the question and answer TextViews with data from the database
-                flashcard_question.setText(allFlashcards.get(randomCardIndex).getQuestion());
-                flashcard_answer.setText(allFlashcards.get(randomCardIndex).getAnswer());
-                answer1.setText(allFlashcards.get(randomCardIndex).getWrongAnswer1());
-                answer2.setText(allFlashcards.get(randomCardIndex).getWrongAnswer2());
-                answer3.setText(allFlashcards.get(randomCardIndex).getAnswer());
-                flashcard_question.setVisibility(View.VISIBLE);
-                flashcard_answer.setVisibility(View.INVISIBLE);
-                answer1.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
-                answer2.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
-                answer3.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
+                leftOutAnim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        // this method is called when the animation first starts
+                        flashcard_question.setVisibility(View.VISIBLE);
+                        flashcard_answer.setVisibility(View.INVISIBLE);
+                        ((TextView) findViewById(R.id.timer)).setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        // this method is called when the animation is finished playing
+                        flashcard_question.startAnimation(rightInAnim);
+
+                        int randomCardIndex = getRandomNumber(0, allFlashcards.size() - 1);
+
+                        // set the question and answer TextViews with data from the database
+                        flashcard_question.setText(allFlashcards.get(randomCardIndex).getQuestion());
+                        flashcard_answer.setText(allFlashcards.get(randomCardIndex).getAnswer());
+                        answer1.setText(allFlashcards.get(randomCardIndex).getWrongAnswer1());
+                        answer2.setText(allFlashcards.get(randomCardIndex).getWrongAnswer2());
+                        answer3.setText(allFlashcards.get(randomCardIndex).getAnswer());
+                        answer1.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
+                        answer2.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
+                        answer3.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                        // we don't need to worry about this method
+                    }
+                });
+                rightInAnim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        // this method is called when the animation first starts
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        // this method is called when the animation is finished playing
+                        ((TextView) findViewById(R.id.timer)).setVisibility(View.VISIBLE);
+                        startTimer();
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                        // we don't need to worry about this method
+                    }
+                });
+
+                flashcard_question.startAnimation(leftOutAnim);
             }
         });
 
@@ -196,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                     next_button.setVisibility(View.INVISIBLE);
                     edit_button.setVisibility(View.INVISIBLE);
                     deleteBtn.setVisibility(View.INVISIBLE);
+                    ((TextView) findViewById(R.id.timer)).setVisibility(View.INVISIBLE);
                 } else {
                     currentCardDisplayedIndex--;
                     if (currentCardDisplayedIndex < 0) {
@@ -211,9 +314,21 @@ public class MainActivity extends AppCompatActivity {
                     answer1.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
                     answer2.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
                     answer3.setBackgroundColor(getResources().getColor(R.color.lightOrange, null));
+                    startTimer();
                 }
             }
         });
+
+        countDownTimer = new CountDownTimer(16000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                ((TextView) findViewById(R.id.timer)).setText("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+            }
+        };
+
+        startTimer();
     }
 
     @Override
@@ -239,6 +354,7 @@ public class MainActivity extends AppCompatActivity {
             next_button.setVisibility(View.VISIBLE);
             edit_button.setVisibility(View.VISIBLE);
             deleteBtn.setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.timer)).setVisibility(View.VISIBLE);
 
             Snackbar.make(flashcard_question,
                     "Card successfully created",
@@ -271,6 +387,7 @@ public class MainActivity extends AppCompatActivity {
 
             flashcardDatabase.updateCard(cardToEdit);
         }
+        startTimer();
     }
 
     // returns a random number between minNumber and maxNumber, inclusive.
@@ -278,5 +395,10 @@ public class MainActivity extends AppCompatActivity {
     public int getRandomNumber(int minNumber, int maxNumber) {
         Random rand = new Random();
         return rand.nextInt((maxNumber - minNumber) + 1) + minNumber;
+    }
+
+    private void startTimer() {
+        countDownTimer.cancel();
+        countDownTimer.start();
     }
 }
