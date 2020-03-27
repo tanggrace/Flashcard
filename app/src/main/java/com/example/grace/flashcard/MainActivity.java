@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
         flashcard_answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flashcard_question.setCameraDistance(25000);
+                flashcard_answer.setCameraDistance(25000);
                 flashcard_answer.animate()
                         .rotationY(90)
                         .setDuration(200)
